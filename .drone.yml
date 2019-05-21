@@ -1,0 +1,37 @@
+---
+kind: pipeline
+name: default
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: install
+  image: node
+  commands:
+  - npm install
+
+- name: build
+  image: node
+  commands:
+  - npm run build
+  environment:
+    SECRET_SALT:
+      from_secret: SECRET_SALT
+
+- name: test
+  image: node
+  commands:
+  - npm test
+  environment:
+    SECRET_SALT:
+      from_secret: SECRET_SALT
+    CODECOV_TOKEN:
+      from_secret: CODECOV_TOKEN
+
+---
+kind: signature
+hmac: 8053e7a4272c7cb0b8f88e1655a2538afbbd47e6726b8f9028d67519574f9528
+
+...

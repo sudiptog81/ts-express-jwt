@@ -18,4 +18,8 @@ app.use(upload.any());
 
 app.use("/api", apiRouter);
 
-app.listen(port, (): void => console.log(`Started on localhost:${port}`));
+if (process.env.NODE_ENV === "production") {
+    app.listen(port, (): void => console.log(`Started on localhost:${port}`));
+}
+
+export default app;
