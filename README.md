@@ -73,7 +73,7 @@ Simple Authentication API using JWT written in TypeScript with SQLite DB.
     "message": "User <USER_EMAIL> deleted!",
     "access_token": "<ACCESS_TOKEN>",
     "expires_in": 86400
-}x
+}
 ```
 
 ### User Profile Update
@@ -102,7 +102,7 @@ Either
     },
     "access_token": "<ACCESS_TOKEN>",
     "expires_in": 86400
-}x
+}
 ```
 
 ## Author
