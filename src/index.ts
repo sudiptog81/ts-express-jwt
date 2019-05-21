@@ -8,7 +8,7 @@ const app: Application = express();
 const upload: Instance = multer({
     storage: multer.memoryStorage()
 });
-const port: number = process.env.PORT ? parseInt(process.env.PORT) : 8001;
+const port: number = process.env.PORT ? parseInt(process.env.PORT) : 8000;
 
 app.options("*", cors());
 
