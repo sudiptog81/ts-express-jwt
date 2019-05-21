@@ -1,9 +1,17 @@
 import { sign } from "jsonwebtoken";
 import { hash, compareSync } from "bcrypt";
 import { Router, Request, Response } from "express";
-import { createUser, findUserByEmail, createUsersTable, deleteUser, updateUserEmail, updateUserName } from "./../database/sqlite3";
+import {
+    createUser,
+    findUserByEmail,
+    createUsersTable,
+    deleteUser,
+    updateUserEmail,
+    updateUserName
+} from "./../database/sqlite3";
 
 const apiRouter: Router = Router();
+let salt: string | undefined = process.env.SECRET_SALT;
 
 createUsersTable();
 
@@ -16,7 +24,8 @@ apiRouter.post("/register", (req: Request, res: Response): void => {
                 if (err) return res.status(500).send("Server error!");
                 if (!user) return res.status(500).send("Server error!");
                 const expiresIn = 24 * 60 * 60;
-                const accessToken = sign({ id: user.id }, process.env.SECRET_SALT ? process.env.SECRET_SALT : "secret123", {
+                salt = salt + email;
+                const accessToken = sign({ id: user.id }, salt, {
                     expiresIn
                 });
                 return res.json({
@@ -34,7 +43,8 @@ apiRouter.post("/login", (req: Request, res: Response): void => {
         if (!user) return res.status(404).send("User not found!");
         if (!compareSync(password, user.password)) return res.status(401).send("Password not valid!");
         const expiresIn = 24 * 60 * 60;
-        const accessToken = sign({ id: user.id }, process.env.SECRET_SALT ? process.env.SECRET_SALT : "secret123", {
+        salt = salt + email;
+        const accessToken = sign({ id: user.id }, salt, {
             expiresIn: expiresIn
         });
         return res.json({ "user": user, "access_token": accessToken, "expires_in": expiresIn });
@@ -48,7 +58,8 @@ apiRouter.delete("/delete", (req: Request, res: Response): void => {
         if (!user) return res.status(404).send("User not found!");
         if (!compareSync(password, user.password)) return res.status(401).send("Password not valid!");
         const expiresIn = 24 * 60 * 60;
-        const accessToken = sign({ id: user.id }, process.env.SECRET_SALT ? process.env.SECRET_SALT : "secret123", {
+        salt = salt + email;
+        const accessToken = sign({ id: user.id }, salt, {
             expiresIn
         });
         deleteUser(user.id, (err: Error): Response => {
@@ -69,7 +80,8 @@ apiRouter.put("/update", (req: Request, res: Response): void => {
         if (!user) return res.status(404).send("User not found!");
         if (!compareSync(password, user.password)) return res.status(401).send("Password not valid!");
         const expiresIn = 24 * 60 * 60;
-        const accessToken = sign({ id: user.id }, process.env.SECRET_SALT ? process.env.SECRET_SALT : "secret123", {
+        salt = salt + email;
+        const accessToken = sign({ id: user.id }, salt, {
             expiresIn
         });
         if (newEmail && !newName) {

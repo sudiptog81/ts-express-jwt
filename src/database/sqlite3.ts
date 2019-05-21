@@ -1,7 +1,12 @@
 import sql, { Database } from "sqlite3";
 import { Response } from "express";
 
-type FindUserCallback = (err: Error, user: { id: number; name: string; password: string; email: string }) => Response | undefined;
+type FindUserCallback = (err: Error, user: {
+    id: number;
+    name: string;
+    password: string;
+    email: string;
+}) => Response | undefined;
 type DeleteUserCallback = (err: Error) => Response | undefined;
 type UpdateUserCallback = (err: Error) => Response | undefined;
 type CreateUserCallback = (err: Error) => Response | undefined;
