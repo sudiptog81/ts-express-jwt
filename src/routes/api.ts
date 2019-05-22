@@ -8,7 +8,7 @@ import {
     deleteUser,
     updateUserEmail,
     updateUserName,
-} from "./../database/sqlite3";
+} from "../database/db";
 
 const apiRouter: Router = Router();
 

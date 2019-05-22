@@ -1,6 +1,6 @@
 import app from "./index";
 import supertest, { Response } from "supertest";
-import { createUsersTable, dropUsersTable } from "./database/sqlite3";
+import { createUsersTable, dropUsersTable } from "./database/db";
 
 let token: string, token2: string;
 

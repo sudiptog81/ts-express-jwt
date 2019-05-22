@@ -1,4 +1,4 @@
-import { createUsersTable } from "./database/sqlite3";
+import { createUsersTable } from "./database/db";
 import app from "./index";
 
 const port: number = process.env.PORT ? parseInt(process.env.PORT) : 8000;
