@@ -26,9 +26,9 @@ apiRouter.post("/register", (req: Request, res: Response): void => {
                     expiresIn
                 });
                 return res.json({
-                    user: user,
-                    access_token: accessToken,
-                    expires_in: expiresIn
+                    "user": user,
+                    "access_token": accessToken,
+                    "expires_in": expiresIn
                 });
             });
         });
@@ -48,9 +48,9 @@ apiRouter.post("/login", (req: Request, res: Response): void => {
             expiresIn
         });
         return res.json({
-            user: user,
-            access_token: accessToken,
-            expires_in: expiresIn
+            "user": user,
+            "access_token": accessToken,
+            "expires_in": expiresIn
         });
     });
 });
@@ -69,9 +69,9 @@ apiRouter.delete("/delete", (req: Request, res: Response): void => {
         deleteUser(user.id, (err: Error): Response => {
             if (err) return res.status(500).send("Server error!");
             return res.json({
-                message: `User ${user.email} deleted!`,
-                access_token: accessToken,
-                expires_in: expiresIn
+                "message": `User ${user.email} deleted!`,
+                "access_token": accessToken,
+                "expires_in": expiresIn
             });
         });
     });
@@ -93,9 +93,9 @@ apiRouter.put("/update", (req: Request, res: Response): void => {
                 if (err) return res.status(500).send("Server error!");
                 user.email = newEmail;
                 return res.json({
-                    user: user,
-                    access_token: accessToken,
-                    expires_in: expiresIn
+                    "user": user,
+                    "access_token": accessToken,
+                    "expires_in": expiresIn
                 });
             });
         } else if (newName && !newEmail) {
@@ -103,16 +103,16 @@ apiRouter.put("/update", (req: Request, res: Response): void => {
                 if (err) return res.status(500).send("Server error!");
                 user.name = newName;
                 return res.json({
-                    user: user,
-                    access_token: accessToken,
-                    expires_in: expiresIn
+                    "user": user,
+                    "access_token": accessToken,
+                    "expires_in": expiresIn
                 });
             });
         } else {
             res.status(500).json({
-                message: `Could not update profile for ${user.email}`,
-                access_token: accessToken,
-                expires_in: expiresIn
+                "message": `Could not update profile for ${user.email}`,
+                "access_token": accessToken,
+                "expires_in": expiresIn
             });
         }
     });
