@@ -1,8 +1,4 @@
 language: node_js
-dist: precise
-addons:
-  apt:
-    packages:
-      - libstdc++-4.9-dev
+dist: xenial
 node_js:
   - "node"
