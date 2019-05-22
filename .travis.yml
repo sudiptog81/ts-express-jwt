@@ -1,8 +1,7 @@
 language: node_js
+dist: precise
 addons:
   apt:
-    sources:
-      - ubuntu-toolchain-r-test
     packages:
       - libstdc++-4.9-dev
 node_js:
