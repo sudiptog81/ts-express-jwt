@@ -1,6 +1,6 @@
 {
   "name": "typescript-example",
-  "version": "0.1.0",
+  "version": "0.1.5",
   "description": "TypeScript Example",
   "main": "lib/index.js",
   "module": "src/index.ts",
@@ -8,13 +8,15 @@
     "build": "npm run lint && tsc -p .",
     "watch": "tsc -p . -w",
     "lint": "eslint --fix src/**/*.{ts,js}",
-    "nodemon": "nodemon src/index.ts",
-    "start": "node lib/index.js",
+    "nodemon": "nodemon src/server.ts",
+    "start": "node lib/server.js",
     "test": "jest && codecov",
     "dev": "concurrently 'npm:watch' 'npm:nodemon'"
   },
   "keywords": [
-    "typescript"
+    "typescript",
+    "jsonwebtoken",
+    "express"
   ],
   "author": {
     "name": "Sudipto Ghosh",

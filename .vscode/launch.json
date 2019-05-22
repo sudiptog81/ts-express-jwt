@@ -9,7 +9,7 @@
             "request": "launch",
             "name": "Watch",
             "runtimeExecutable": "nodemon",
-            "program": "${workspaceFolder}\\src\\index.ts",
+            "program": "${workspaceFolder}\\src\\server.ts",
             "restart": true,
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
@@ -21,7 +21,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch",
-            "program": "${workspaceFolder}\\src\\index.ts",
+            "program": "${workspaceFolder}\\src\\server.ts",
             "preLaunchTask": "npm: build",
             "outFiles": [
                 "${workspaceFolder}/**/*.js"

@@ -21,6 +21,10 @@ const createUsersTable = (): Database => database.run(`
         password text)
 `);
 
+const dropUsersTable = (): Database => database.run(`
+        DROP TABLE users
+`);
+
 const findUserByEmail = (email: string, cb: FindUserCallback): Database => database.get("SELECT * FROM users WHERE email = ?", [email], (err: Error, user: { id: number; name: string; password: string; email: string }): Response | undefined => cb(err, user));
 
 const deleteUser = (id: number, cb: DeleteUserCallback): Database => database.run("DELETE FROM users WHERE id = ?", [id], (err: Error): Response | undefined => cb(err));
@@ -31,4 +35,4 @@ const updateUserName = (id: number, newName: string, cb: UpdateUserCallback): Da
 
 const createUser = (user: string[], cb: CreateUserCallback): Database => database.run("INSERT INTO users (name, email, password) VALUES (?,?,?)", user, (err: Error): Response | undefined => cb(err));
 
-export { createUsersTable, findUserByEmail, deleteUser, createUser, updateUserEmail, updateUserName };
+export { createUsersTable, findUserByEmail, deleteUser, createUser, updateUserEmail, updateUserName, dropUsersTable };

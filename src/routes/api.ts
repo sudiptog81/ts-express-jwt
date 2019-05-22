@@ -4,16 +4,13 @@ import { Router, Request, Response } from "express";
 import {
     createUser,
     findUserByEmail,
-    createUsersTable,
     deleteUser,
     updateUserEmail,
-    updateUserName
+    updateUserName,
 } from "./../database/sqlite3";
 
 const apiRouter: Router = Router();
 let salt: string | undefined = process.env.SECRET_SALT;
-
-createUsersTable();
 
 apiRouter.post("/register", (req: Request, res: Response): void => {
     let { name, email, password }: { name: string; email: string; password: string } = req.body;
@@ -40,6 +37,7 @@ apiRouter.post("/login", (req: Request, res: Response): void => {
     const { email, password }: { email: string; password: string } = req.body;
     findUserByEmail(email, (err: Error, user: { id: number; password: string }): Response => {
         if (err) return res.status(500).send("Server error!");
+        if (!email) return res.status(500).send("Server error!");
         if (!user) return res.status(404).send("User not found!");
         if (!compareSync(password, user.password)) return res.status(401).send("Password not valid!");
         const expiresIn = 24 * 60 * 60;
@@ -101,7 +99,7 @@ apiRouter.put("/update", (req: Request, res: Response): void => {
                 });
             });
         } else {
-            res.json({
+            res.status(500).json({
                 "message": `Could not update profile for ${user.email}`, "access_token": accessToken, "expires_in": expiresIn
             });
         }

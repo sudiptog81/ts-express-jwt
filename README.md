@@ -1,4 +1,4 @@
-# TypeScript JWT Example
+# TypeScript Express JWT Example
 
 [![Drone (self-hosted)](https://img.shields.io/drone/build/sudipto/typescript-express.svg?logo=drone&server=https%3A%2F%2Fci.ghosh.pro&style=flat-square)](https://ci.ghosh.pro/sudipto/typescript-express)
 [![Travis (.com)](https://img.shields.io/travis/com/sudiptog81/ts-express-jwt.svg?logo=travis&style=flat-square)](https://travis-ci.com/sudiptog81/ts-express-jwt)
