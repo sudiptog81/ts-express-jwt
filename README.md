@@ -66,6 +66,10 @@ Simple Authentication API using JWT written in TypeScript with SQLite DB.
 - **email**: email of the user (required)
 - **password**: password (plaintext or externally hashed) (required)
 
+#### Request Headers
+
+- **Authorization**: Bearer `<ACCESS_TOKEN>` (required)
+
 #### Example Response
 
 ```json
@@ -89,6 +93,10 @@ Either
 
 - **newEmail**: new email of the user, OR
 - **newName**: new name of the user
+
+#### Request Headers
+
+- **Authorization**: Bearer `<ACCESS_TOKEN>` (required)
 
 #### Example Response
 
