@@ -178,7 +178,7 @@ describe("PUT Endpoints", (): void => {
 });
 
 describe("DELETE Endpoints", (): void => {
-    test("delete endpoint", (done): void => {
+    test("delete endpoint", (done: jest.DoneCallback): void => {
         supertest(app).delete("/api/delete").set({
             "Authorization": token
         }).send({
@@ -189,7 +189,7 @@ describe("DELETE Endpoints", (): void => {
             done();
         });
     });
-    test("delete endpoint: wrong password", (done): void => {
+    test("delete endpoint: wrong password", (done: jest.DoneCallback): void => {
         supertest(app).delete("/api/delete").set({
             "Authorization": token2
         }).send({
@@ -200,7 +200,7 @@ describe("DELETE Endpoints", (): void => {
             done();
         });
     });
-    test("delete endpoint: non-existent user", (done): void => {
+    test("delete endpoint: non-existent user", (done: jest.DoneCallback): void => {
         supertest(app).delete("/api/delete").set({
             "Authorization": token
         }).send({
@@ -208,6 +208,23 @@ describe("DELETE Endpoints", (): void => {
             password: "password"
         }).then((response: Response): void => {
             expect(response.status).toBe(404);
+            done();
+        });
+    });
+});
+
+describe("Front-End Application", (): void => {
+    test("landing page renders", (done: jest.DoneCallback): void => {
+        supertest(app).get("/").then((response: Response): void => {
+            expect(response.status).toBe(200);
+            expect(response.type).toBe("text/html");
+            done();
+        });
+    });
+    test("profile page reachable", (done: jest.DoneCallback): void => {
+        supertest(app).get("/profile").then((response: Response): void => {
+            expect(response.status).toBe(200);
+            expect(response.type).toBe("text/html");
             done();
         });
     });

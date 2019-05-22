@@ -26,13 +26,14 @@ apiRouter.post("/register", (req: Request, res: Response): void => {
     hash(password, 10, (err: Error, password: string): void => {
         createUser([name, email, password], (err?: Error): Response | undefined => {
             if (err) return res.status(500).json({ "error": "Server error!" });
-            findUserByEmail(email, (err: Error, user: { id?: number }): Response => {
+            findUserByEmail(email, (err: Error, user: { id: number; password: string }): Response => {
                 if (err) return res.status(500).json({ "error": "Server error!" });
                 if (!user) return res.status(500).json({ "error": "Server error!" });
-                const expiresIn = 24 * 60 * 60;
+                const expiresIn = 60;
                 const accessToken = sign({ id: user.id }, salt, {
                     expiresIn
                 });
+                delete user.password;
                 return res.json({
                     "user": user,
                     "access_token": accessToken,
@@ -50,10 +51,11 @@ apiRouter.post("/login", (req: Request, res: Response): void => {
         if (!email) return res.status(500).json({ "error": "Server error!" });
         if (!user) return res.status(404).json({ "error": "User not found!" });
         if (!compareSync(password, user.password)) return res.status(401).json({ "error": "Password not valid!" });
-        const expiresIn = 24 * 60 * 60;
+        const expiresIn = 60;
         const accessToken = sign({ id: user.id }, salt, {
             expiresIn
         });
+        delete user.password;
         return res.json({
             "user": user,
             "access_token": accessToken,
@@ -65,17 +67,17 @@ apiRouter.post("/login", (req: Request, res: Response): void => {
 apiRouter.delete("/delete", (req: Request, res: Response): void => {
     const { email, password }: { email: string; password: string } = req.body;
     findUserByEmail(email, (err: Error, user: { id: number; password: string; email: string }): Response | undefined => {
-        if (err) return res.status(500).json({ "error": "Server error!" });
+        if (err) return res.status(500).json({ "error": err });
         if (!user) return res.status(404).json({ "error": "User not found!" });
         if (!compareSync(password, user.password)) return res.status(401).json({ "error": "Password not valid!" });
-        const expiresIn = 24 * 60 * 60;
+        const expiresIn = 60;
         const accessToken = sign({ id: user.id }, salt, {
             expiresIn
         });
         deleteUser(user.id, (err: Error): Response => {
-            if (err) return res.status(500).json({ "error": "Server error!" });
+            if (err) return res.status(500).json({ "error": err });
             return res.json({
-                "error": `User ${user.email} deleted!`,
+                "message": `User ${user.email} deleted!`,
                 "access_token": accessToken,
                 "expires_in": expiresIn
             });
@@ -89,10 +91,11 @@ apiRouter.put("/update", (req: Request, res: Response): void => {
         if (err) return res.status(500).json({ "error": "Server error!" });
         if (!user) return res.status(404).json({ "error": "User not found!" });
         if (!compareSync(password, user.password)) return res.status(401).json({ "error": "Password not valid!" });
-        const expiresIn = 24 * 60 * 60;
+        const expiresIn = 60;
         const accessToken = sign({ id: user.id }, salt, {
             expiresIn
         });
+        delete user.password;
         if (newEmail && !newName) {
             updateUserEmail(user.id, newEmail, (err: Error): Response => {
                 if (err) return res.status(500).json({ "error": "Server error!" });

@@ -1,0 +1,68 @@
+<div class="center">
+    <img src="https://raw.githubusercontent.com/remojansen/logo.ts/master/ts.png" alt="TypeScript Express NodeJS">
+    <form id="register-form" class="col s12">
+        <h2>Register</h2>
+        <div class="row">
+            <div class="input-field">
+                <label for="name">
+                    <span>Name</span>
+                </label>
+                <input type="text" name="name" id="reg-name" class="validate" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field">
+                <label for="email">
+                    <span>E-mail</span>
+                </label>
+                <input type="email" name="email" id="reg-email" class="validate" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field">
+                <label for="password">
+                    <span>Password</span>
+                </label>
+                <input type="password" name="password" id="reg-password" class="validate" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <a class="waves-effect waves-light btn-large blue darken-3" id="reg-submit">Register</a>
+            </div>
+        </div>
+        Already have an account? <a class="blue-text text-darken-3" id="lg-show">Login</a>
+
+    </form>
+    <form id="login-form" class="col s12">
+        <h2>Login</h2>
+        <div class="row">
+            <div class="input-field col s12">
+                <label for="email">
+                    <span>E-mail</span>
+                </label>
+                <input type="email" name="email" id="lg-email" class="validate" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <label for="password">
+                    <span>Password</span>
+                </label>
+                <input type="password" name="password" id="lg-password" class="validate" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <a class="waves-effect waves-light btn-large blue darken-3" id="lg-submit">Login</a>
+            </div>
+        </div>
+        Don't have an account? <a class="blue-text text-darken-3" id="reg-show">Register</a>
+    </form>
+    <div class="footer-copyright">
+        <div class="container">
+            <div class="copy">&copy; {{year}} Sudipto Ghosh</div>
+        </div>
+    </div>
+</div>
+<script src="assets/scripts.js"></script>

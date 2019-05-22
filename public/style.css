@@ -1,0 +1,82 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  color: #222;
+  position: relative;
+  text-align: center;
+  background: #eee;
+  width: 100%;
+  height: 100%;
+}
+
+h1 {
+  font-size: 2.5em !important;
+}
+
+h2 {
+  font-size: 2em !important;
+}
+
+.center {
+  position: absolute;
+  margin: 0 auto;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  display: grid;
+  grid-template-areas: "banner" "form";
+  grid-gap: 1 em;
+  width: 100%;
+  /* height: 100%; */
+  padding: 1em;
+}
+
+.center > .banner {
+  grid-area: banner;
+  text-align: center;
+}
+
+.center > #register-form {
+  display: none;
+}
+
+.center > #register-form,
+.center > #login-form {
+  grid-area: form;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.footer-copyright {
+  margin-top: 1em;
+  min-height: unset;
+}
+
+a {
+  cursor: pointer;
+}
+
+@media (max-width: 800px) {
+  .center > #register-form,
+  .center > #login-form {
+    width: 80%;
+  }
+}
+
+img {
+  margin: auto;
+  max-height: 100px;
+  width: auto;
+  height: auto;
+}
+
+#userdata {
+  width: 70%;
+  margin: auto;
+  font-size: 1.3em;
+}
+
+#timer {
+  font-size: 5em;
+}
