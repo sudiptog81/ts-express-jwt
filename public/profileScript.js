@@ -3,6 +3,20 @@ if ((new Date().getTime() - parseInt(sessionStorage.getItem("issued"))) >= (60 *
     sessionStorage.clear(); location.reload();
 };
 
+setTimeout(() => {
+    if (sessionStorage.getItem("user") && ((new Date().getTime() - parseInt(sessionStorage.getItem("issued"))) >= (30 * 1000))) {
+        const password = prompt("Enter password:");
+        if (password) {
+            axios.post("../api/login", {
+                email: JSON.parse(sessionStorage.getItem("user")).email,
+                password: btoa(password)
+            });
+        } else {
+            sessionStorage.clear(); location.reload();
+        }
+    }
+}, 1000);
+
 const setStorage = res => {
     sessionStorage.setItem("token", res.data.access_token);
     sessionStorage.setItem("issued", new Date().getTime());
