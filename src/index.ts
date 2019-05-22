@@ -1,8 +1,8 @@
 import cors from "cors";
-import multer, { Instance } from "multer";
 import bodyParser from "body-parser";
-import express, { Application } from "express";
 import apiRouter from "./routes/api";
+import multer, { Instance } from "multer";
+import express, { Application } from "express";
 
 const app: Application = express();
 const upload: Instance = multer({
@@ -10,7 +10,6 @@ const upload: Instance = multer({
 });
 
 app.options("*", cors());
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(upload.any());

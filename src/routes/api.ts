@@ -1,3 +1,4 @@
+import jwt from "express-jwt";
 import { sign } from "jsonwebtoken";
 import { hash, compareSync } from "bcrypt";
 import { Router, Request, Response } from "express";
@@ -10,7 +11,15 @@ import {
 } from "./../database/sqlite3";
 
 const apiRouter: Router = Router();
-let salt: string | undefined = process.env.SECRET_SALT;
+
+const salt: string = process.env.SECRET_SALT + (Math.random() * 10000).toString();
+
+apiRouter.use(jwt({ secret: salt }).unless({
+    path: [
+        "/api/login",
+        "/api/register"
+    ]
+}));
 
 apiRouter.post("/register", (req: Request, res: Response): void => {
     let { name, email, password }: { name: string; email: string; password: string } = req.body;
@@ -21,7 +30,6 @@ apiRouter.post("/register", (req: Request, res: Response): void => {
                 if (err) return res.status(500).json({ "error": "Server error!" });
                 if (!user) return res.status(500).json({ "error": "Server error!" });
                 const expiresIn = 24 * 60 * 60;
-                salt = salt + email;
                 const accessToken = sign({ id: user.id }, salt, {
                     expiresIn
                 });
@@ -43,7 +51,6 @@ apiRouter.post("/login", (req: Request, res: Response): void => {
         if (!user) return res.status(404).json({ "error": "User not found!" });
         if (!compareSync(password, user.password)) return res.status(401).json({ "error": "Password not valid!" });
         const expiresIn = 24 * 60 * 60;
-        salt = salt + email;
         const accessToken = sign({ id: user.id }, salt, {
             expiresIn
         });
@@ -62,7 +69,6 @@ apiRouter.delete("/delete", (req: Request, res: Response): void => {
         if (!user) return res.status(404).json({ "error": "User not found!" });
         if (!compareSync(password, user.password)) return res.status(401).json({ "error": "Password not valid!" });
         const expiresIn = 24 * 60 * 60;
-        salt = salt + email;
         const accessToken = sign({ id: user.id }, salt, {
             expiresIn
         });
@@ -84,7 +90,6 @@ apiRouter.put("/update", (req: Request, res: Response): void => {
         if (!user) return res.status(404).json({ "error": "User not found!" });
         if (!compareSync(password, user.password)) return res.status(401).json({ "error": "Password not valid!" });
         const expiresIn = 24 * 60 * 60;
-        salt = salt + email;
         const accessToken = sign({ id: user.id }, salt, {
             expiresIn
         });
