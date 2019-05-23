@@ -1,6 +1,6 @@
 const setStorage = res => {
     sessionStorage.setItem("token", res.data.access_token);
-    sessionStorage.setItem("issued", new Date().getTime());
+    sessionStorage.setItem("expiresAt", res.data.expires_at);
     sessionStorage.setItem("user", JSON.stringify(res.data.user));
 };
 

@@ -14,7 +14,7 @@ const apiRouter: Router = Router();
 
 const salt: string = process.env.SECRET_SALT + (Math.random() * 10000).toString();
 
-apiRouter.use(jwt({ secret: salt }).unless({
+apiRouter.use(jwt({ secret: salt, requestProperty: "body.jwt" }).unless({
     path: [
         "/api/login",
         "/api/register"
@@ -37,7 +37,7 @@ apiRouter.post("/register", (req: Request, res: Response): void => {
             return res.json({
                 "user": user,
                 "access_token": accessToken,
-                "expires_in": expiresIn
+                "expires_at": (new Date().getTime() / 1000) + 60
             });
         });
     });
@@ -58,7 +58,7 @@ apiRouter.post("/login", (req: Request, res: Response): void => {
         return res.json({
             "user": user,
             "access_token": accessToken,
-            "expires_in": expiresIn
+            "expires_at": (new Date().getTime() / 1000) + 60
         });
     });
 });
@@ -78,7 +78,7 @@ apiRouter.delete("/delete", (req: Request, res: Response): void => {
             return res.json({
                 "message": `User ${user.email} deleted!`,
                 "access_token": accessToken,
-                "expires_in": expiresIn
+                "expires_at": (new Date().getTime() / 1000) + 60
             });
         });
     });
@@ -102,7 +102,7 @@ apiRouter.put("/update", (req: Request, res: Response): void => {
                 return res.json({
                     "user": user,
                     "access_token": accessToken,
-                    "expires_in": expiresIn
+                    "expires_at": (new Date().getTime() / 1000) + 60
                 });
             });
         } else if (newName && !newEmail) {
@@ -112,14 +112,14 @@ apiRouter.put("/update", (req: Request, res: Response): void => {
                 return res.json({
                     "user": user,
                     "access_token": accessToken,
-                    "expires_in": expiresIn
+                    "expires_at": (new Date().getTime() / 1000) + 60
                 });
             });
         } else {
             res.status(500).json({
                 "error": `Could not update profile for ${user.email}`,
                 "access_token": accessToken,
-                "expires_in": expiresIn
+                "expires_at": (new Date().getTime() / 1000) + 60
             });
         }
     });

@@ -1,5 +1,6 @@
 if (!sessionStorage.getItem("user")) window.location.assign("../");
-if ((new Date().getTime() - parseInt(sessionStorage.getItem("issued"))) >= (60 * 1000)) {
+const expiresAt = parseInt(sessionStorage.getItem("expiresAt"));
+if ((expiresAt - (new Date().getTime() / 1000)) <= 5) {
     sessionStorage.clear(); location.reload();
 };
 
@@ -19,7 +20,7 @@ setTimeout(() => {
 
 const setStorage = res => {
     sessionStorage.setItem("token", res.data.access_token);
-    sessionStorage.setItem("issued", new Date().getTime());
+    sessionStorage.setItem("expiresAt", res.data.expires_at);
     sessionStorage.setItem("user", JSON.stringify(res.data.user));
 };
 
@@ -74,7 +75,7 @@ document.getElementById("email-profile").addEventListener("click", () => {
     }).catch(err => alert("UpdateError: " + err));
 });
 
-let i = 58 - (Math.floor((new Date().getTime() - parseInt(sessionStorage.getItem("issued"))) / 1000));
+let i = Math.floor(expiresAt - (new Date().getTime() / 1000));
 setInterval(() => {
     document.getElementById("timer").innerHTML = i-- + "s";
     if (i <= 5) {
