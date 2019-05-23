@@ -8,12 +8,12 @@ platform:
 
 steps:
 - name: install
-  image: node
+  image: node:11
   commands:
   - npm install
 
 - name: build
-  image: node
+  image: node:11
   commands:
   - npm run build
   environment:
@@ -21,7 +21,7 @@ steps:
       from_secret: SECRET_SALT
 
 - name: test
-  image: node
+  image: node:11
   commands:
   - npm test
   environment:
