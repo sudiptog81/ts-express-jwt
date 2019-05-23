@@ -17,7 +17,7 @@ beforeAll((done: jest.DoneCallback): void => {
     });
     supertest(app).post("/api/register").send({
         name: "Control",
-        email: "c@c.com",
+        email: "s@c.com",
         password: "control"
     }).then((response: Response): void => {
         token2 = "Bearer " + response.body["access_token"];
@@ -167,7 +167,7 @@ describe("PUT Endpoints", (): void => {
         supertest(app).put("/api/update").set({
             "Authorization": token
         }).send({
-            newEmail: "c@c.com",
+            newEmail: "s@c.com",
             email: "c@d.com",
             password: "password"
         }).then((response: Response): void => {
@@ -193,7 +193,7 @@ describe("DELETE Endpoints", (): void => {
         supertest(app).delete("/api/delete").set({
             "Authorization": token2
         }).send({
-            email: "c@c.com",
+            email: "s@c.com",
             password: "password"
         }).then((response: Response): void => {
             expect(response.status).toBe(401);
