@@ -80,3 +80,7 @@ img {
 #timer {
   font-size: 5em;
 }
+
+input {
+  margin: 0 !important;
+}

@@ -1,6 +1,6 @@
 import jwt from "express-jwt";
 import { sign } from "jsonwebtoken";
-import { hash, compareSync } from "bcrypt";
+import { compareSync, hashSync } from "bcrypt";
 import { Router, Request, Response } from "express";
 import {
     createUser,
@@ -23,22 +23,21 @@ apiRouter.use(jwt({ secret: salt }).unless({
 
 apiRouter.post("/register", (req: Request, res: Response): void => {
     let { name, email, password }: { name: string; email: string; password: string } = req.body;
-    hash(password, 10, (err: Error, password: string): void => {
-        createUser([name, email, password], (err?: Error): Response | undefined => {
+    password = hashSync(password, 10);
+    createUser([name, email, password], (err?: Error): Response | undefined => {
+        if (err) return res.status(500).json({ "error": "Server error!" });
+        findUserByEmail(email, (err: Error, user: { id: number; password: string }): Response => {
             if (err) return res.status(500).json({ "error": "Server error!" });
-            findUserByEmail(email, (err: Error, user: { id: number; password: string }): Response => {
-                if (err) return res.status(500).json({ "error": "Server error!" });
-                if (!user) return res.status(500).json({ "error": "Server error!" });
-                const expiresIn = 60;
-                const accessToken = sign({ id: user.id }, salt, {
-                    expiresIn
-                });
-                delete user.password;
-                return res.json({
-                    "user": user,
-                    "access_token": accessToken,
-                    "expires_in": expiresIn
-                });
+            if (!user) return res.status(500).json({ "error": "Server error!" });
+            const expiresIn = 60;
+            const accessToken = sign({ id: user.id }, salt, {
+                expiresIn
+            });
+            delete user.password;
+            return res.json({
+                "user": user,
+                "access_token": accessToken,
+                "expires_in": expiresIn
             });
         });
     });
@@ -67,7 +66,7 @@ apiRouter.post("/login", (req: Request, res: Response): void => {
 apiRouter.delete("/delete", (req: Request, res: Response): void => {
     const { email, password }: { email: string; password: string } = req.body;
     findUserByEmail(email, (err: Error, user: { id: number; password: string; email: string }): Response | undefined => {
-        if (err) return res.status(500).json({ "error": err });
+        if (err) return res.status(500).json({ "error": "Server Error!" });
         if (!user) return res.status(404).json({ "error": "User not found!" });
         if (!compareSync(password, user.password)) return res.status(401).json({ "error": "Password not valid!" });
         const expiresIn = 60;
