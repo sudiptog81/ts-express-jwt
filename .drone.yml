@@ -11,6 +11,10 @@ steps:
   image: "node:11"
   commands:
   - npm install
+  when:
+    branch:
+    - master
+    - dev
 
 - name: build
   image: "node:11"
@@ -19,6 +23,10 @@ steps:
   environment:
     SECRET_SALT:
       from_secret: SECRET_SALT
+  when:
+    branch:
+    - master
+    - dev
 
 - name: test
   image: "node:11"
@@ -29,6 +37,10 @@ steps:
       from_secret: SECRET_SALT
     CODECOV_TOKEN:
       from_secret: CODECOV_TOKEN
+  when:
+    branch:
+    - master
+    - dev
 
 ---
 kind: signature
