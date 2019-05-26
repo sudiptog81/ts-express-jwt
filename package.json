@@ -10,7 +10,7 @@
     "lint": "eslint --fix src/**/*.{ts,js}",
     "nodemon": "nodemon src/server.ts",
     "start": "node lib/server.js",
-    "test": "jest && codecov",
+    "test": "jest --detectOpenHandles --runInBand && codecov",
     "dev": "concurrently 'npm:watch' 'npm:nodemon'"
   },
   "keywords": [
@@ -49,6 +49,7 @@
     "@types/supertest": "^2.0.7",
     "@typescript-eslint/eslint-plugin": "^1.9.0",
     "@typescript-eslint/parser": "^1.9.0",
+    "axios": "^0.18.0",
     "codecov": "^3.5.0",
     "concurrently": "^4.1.0",
     "eslint": "^5.16.0",

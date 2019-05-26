@@ -1,6 +1,5 @@
 import cors from "cors";
 import { join } from "path";
-import bodyParser from "body-parser";
 import apiRouter from "./routes/api";
 import viewRouter from "./routes/view";
 import multer, { Instance } from "multer";
@@ -13,8 +12,8 @@ const upload: Instance = multer({
 });
 
 app.options("*", cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(upload.any());
 app.set("view engine", "handlebars");
 app.engine("handlebars", handlebars({ defaultLayout: "main" }));

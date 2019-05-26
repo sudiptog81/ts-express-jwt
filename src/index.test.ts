@@ -4,43 +4,27 @@ import { createUsersTable, dropUsersTable } from "./database/db";
 
 let token: string, token2: string;
 
-beforeAll((done: jest.DoneCallback): void => {
-    createUsersTable();
-    supertest(app).post("/api/register").send({
-        name: "Awesome",
-        email: "a@b.com",
-        password: "password"
-    }).then((response: Response): void => {
-        token = "Bearer " + response.body["access_token"];
-        expect(response.status).toBe(200);
-        done();
-    });
-    supertest(app).post("/api/register").send({
-        name: "Control",
-        email: "s@c.com",
-        password: "control"
-    }).then((response: Response): void => {
-        token2 = "Bearer " + response.body["access_token"];
-        expect(response.status).toBe(200);
-        done();
-    });
-});
+createUsersTable();
 
 describe("POST Endpoints", (): void => {
     test("registration endpoint", (done: jest.DoneCallback): void => {
         supertest(app).post("/api/register").send({
             name: "Awesome",
-            email: "d@f.com",
+            email: "a@b.com",
             password: "password"
         }).then((response: Response): void => {
+            token = "Bearer " + response.body["access_token"];
             expect(response.status).toBe(200);
             done();
         });
+    });
+    test("registration endpoint 2", (done: jest.DoneCallback): void => {
         supertest(app).post("/api/register").send({
-            name: "Control2",
-            email: "c2@c.com",
-            password: "control2"
+            name: "Control",
+            email: "s@c.com",
+            password: "control"
         }).then((response: Response): void => {
+            token2 = "Bearer " + response.body["access_token"];
             expect(response.status).toBe(200);
             done();
         });
@@ -58,6 +42,7 @@ describe("POST Endpoints", (): void => {
     test("registration endpoint: missing fields in request receive 500", (done: jest.DoneCallback): void => {
         supertest(app).post("/api/register").send({
             name: "Cool",
+            email: null,
             password: "password"
         }).then((response: Response): void => {
             expect(response.status).toBe(500);
